@@ -8,7 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String NOMBRE_BD = "renta_vehiculos.db";
-    private static final int VERSION_BD = 5;
+    private static final int VERSION_BD = 6;
 
     public DatabaseHelper(Context context) {
         super(context, NOMBRE_BD, null, VERSION_BD);
@@ -140,7 +140,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         // Cuentas de demostración (Administración y Cliente)
         db.execSQL("INSERT INTO Usuario (nombre, correo, clave, idRol) VALUES ('Administrador Sistema', 'admin@renta.com', '123456', 2);");
-        db.execSQL("INSERT INTO Usuario (nombre, correo, clave, idRol) VALUES ('Juan Perez (Cliente)', 'cliente@gmail.com', '123456', 1);");
+        db.execSQL("INSERT INTO Usuario (nombre, correo, clave, idRol) VALUES ('Junior Ramos Flores', 'cliente@gmail.com', '123456', 1);");
 
         insertarVehiculosPredeterminados(db);
         insertarDatosDemostracion(db);
@@ -151,9 +151,29 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         if (oldVersion < 4) {
             insertarVehiculosPredeterminados(db);
         }
+        if (oldVersion < 6) {
+            actualizarUsuariosDemostracion(db);
+        }
         if (oldVersion < 5) {
             insertarDatosDemostracion(db);
         }
+    }
+
+    private void actualizarUsuariosDemostracion(SQLiteDatabase db) {
+        // Se conservan los IDs, las claves y las relaciones con reservas y contratos.
+        actualizarUsuarioDemo(db, "cliente@gmail.com", "Junior Ramos Flores", "cliente@gmail.com");
+        actualizarUsuarioDemo(db, "ana.ventas@renta.com", "Christian De la Cadena Mosquera", "christian.ventas@renta.com");
+        actualizarUsuarioDemo(db, "luis.ventas@renta.com", "Aldair Romero Medina", "aldair.ventas@renta.com");
+        actualizarUsuarioDemo(db, "pedro.ventas@renta.com", "Antony Yerén Lezama", "antony.ventas@renta.com");
+    }
+
+    private void actualizarUsuarioDemo(SQLiteDatabase db, String correoAnterior, String nombre, String correoNuevo) {
+        ContentValues datos = new ContentValues();
+        datos.put("nombre", nombre);
+        datos.put("correo", correoNuevo);
+        // Si alguien ya registró el correo nuevo, no se sobrescribe su cuenta ni se bloquea la actualización.
+        db.updateWithOnConflict("Usuario", datos, "correo = ?", new String[]{correoAnterior},
+                SQLiteDatabase.CONFLICT_IGNORE);
     }
 
     private void insertarVehiculosPredeterminados(SQLiteDatabase db) {
@@ -197,22 +217,22 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     private void insertarDatosDemostracion(SQLiteDatabase db) {
         // Las claves naturales evitan duplicados al actualizar sin borrar información del usuario.
-        insertarUsuarioDemo(db, "Ana Torres", "ana.ventas@renta.com", 2);
-        insertarUsuarioDemo(db, "Luis Ramos", "luis.ventas@renta.com", 2);
+        insertarUsuarioDemo(db, "Christian De la Cadena Mosquera", "christian.ventas@renta.com", 2);
+        insertarUsuarioDemo(db, "Aldair Romero Medina", "aldair.ventas@renta.com", 2);
         insertarUsuarioDemo(db, "Marta Díaz", "marta.ventas@renta.com", 2);
-        insertarUsuarioDemo(db, "Pedro Vega", "pedro.ventas@renta.com", 2);
+        insertarUsuarioDemo(db, "Antony Yerén Lezama", "antony.ventas@renta.com", 2);
         insertarUsuarioDemo(db, "Carmen Ruiz", "carmen.inspeccion@renta.com", 3);
         insertarUsuarioDemo(db, "Diego Flores", "diego.devolucion@renta.com", 4);
         insertarUsuarioDemo(db, "Lucía Gómez", "lucia.cliente@renta.com", 1);
 
-        long juan = buscarId(db, "Usuario", "idUsuario", "correo", "cliente@gmail.com");
+        long junior = buscarId(db, "Usuario", "idUsuario", "correo", "cliente@gmail.com");
         long lucia = buscarId(db, "Usuario", "idUsuario", "correo", "lucia.cliente@renta.com");
         long inspector = buscarId(db, "Usuario", "idUsuario", "correo", "carmen.inspeccion@renta.com");
         long[] recepcionistas = {
-                buscarId(db, "Usuario", "idUsuario", "correo", "ana.ventas@renta.com"),
-                buscarId(db, "Usuario", "idUsuario", "correo", "luis.ventas@renta.com"),
+                buscarId(db, "Usuario", "idUsuario", "correo", "christian.ventas@renta.com"),
+                buscarId(db, "Usuario", "idUsuario", "correo", "aldair.ventas@renta.com"),
                 buscarId(db, "Usuario", "idUsuario", "correo", "marta.ventas@renta.com"),
-                buscarId(db, "Usuario", "idUsuario", "correo", "pedro.ventas@renta.com")
+                buscarId(db, "Usuario", "idUsuario", "correo", "antony.ventas@renta.com")
         };
         String[] placas = {"RTA-101", "RTA-102", "RTA-101", "RTA-104"};
         String[] inicios = {"2026-09-03", "2026-09-18", "2026-10-05", "2026-10-12"};
@@ -221,14 +241,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         long vehiculoReservado = buscarId(db, "Vehiculo", "idVehiculo", "placa", "RTA-101");
         long reserva = -1;
-        if (juan > 0 && vehiculoReservado > 0) {
+        if (junior > 0 && vehiculoReservado > 0) {
             if (!existe(db, "Reserva", "idCliente = ? AND idVehiculo = ? AND fechaReserva = ?",
-                    String.valueOf(juan), String.valueOf(vehiculoReservado), "2026-09-01")) {
+                    String.valueOf(junior), String.valueOf(vehiculoReservado), "2026-09-01")) {
                 ContentValues datos = new ContentValues();
                 datos.put("fechaReserva", "2026-09-01");
                 datos.put("montoAdelanto", 100);
                 datos.put("estadoReserva", "Atendida");
-                datos.put("idCliente", juan);
+                datos.put("idCliente", junior);
                 datos.put("idVehiculo", vehiculoReservado);
                 reserva = db.insertOrThrow("Reserva", null, datos);
             }
@@ -252,7 +272,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         for (int i = 0; i < placas.length; i++) {
             long vehiculo = buscarId(db, "Vehiculo", "idVehiculo", "placa", placas[i]);
-            long cliente = i == 3 ? lucia : juan;
+            long cliente = i == 3 ? lucia : junior;
             if (vehiculo <= 0 || cliente <= 0 || recepcionistas[i] <= 0) continue;
             if (existe(db, "ContratoAlquiler", "idVehiculo = ? AND fechaInicio = ? AND idCliente = ?",
                     String.valueOf(vehiculo), inicios[i], String.valueOf(cliente))) continue;

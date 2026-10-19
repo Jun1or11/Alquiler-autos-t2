@@ -1,6 +1,7 @@
 package com.example.t2.view;
 
 import android.app.DatePickerDialog;
+import android.content.res.ColorStateList;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
@@ -132,12 +133,19 @@ public class ReservaActivity extends AppCompatActivity {
                 }
                 Button opcion = new Button(this);
                 opcion.setText(id == idVehiculoSeleccionado ? "Seleccionado: " + descripcion : "Elegir " + descripcion);
+                opcion.setAllCaps(false);
+                opcion.setBackgroundResource(R.drawable.bg_app_secondary);
+                opcion.setBackgroundTintList(ColorStateList.valueOf(getColor(R.color.app_soft)));
+                opcion.setTextColor(getColor(R.color.app_secondary_text));
                 opcion.setEnabled(id != idVehiculoSeleccionado);
                 opcion.setOnClickListener(v -> {
                     idVehiculoSeleccionado = id;
                     mostrarVehiculosParaReserva();
                 });
-                contenedorVehiculosReserva.addView(opcion);
+                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                params.bottomMargin = (int) (getResources().getDisplayMetrics().density * 8 + 0.5f);
+                contenedorVehiculosReserva.addView(opcion, params);
             }
         }
 
@@ -150,6 +158,7 @@ public class ReservaActivity extends AppCompatActivity {
         if (!hayDisponibles) {
             TextView vacio = new TextView(this);
             vacio.setText("No hay vehículos disponibles en este momento.");
+            vacio.setTextColor(getColor(R.color.app_text));
             contenedorVehiculosReserva.addView(vacio);
         }
     }

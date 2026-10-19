@@ -2,6 +2,7 @@ package com.example.t2.view;
 
 import android.database.Cursor;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -18,6 +19,8 @@ import com.example.t2.model.Usuario;
 public class RegistroUsuarioActivity extends AppCompatActivity {
     private EditText etNombreUsuario;
     private EditText etCorreoUsuario;
+    private EditText etClaveUsuario;
+    private EditText etConfirmarClaveUsuario;
     private Spinner spRolUsuario;
     private TextView tvResultadoUsuario;
 
@@ -39,6 +42,8 @@ public class RegistroUsuarioActivity extends AppCompatActivity {
 
         etNombreUsuario = findViewById(R.id.etNombreUsuario);
         etCorreoUsuario = findViewById(R.id.etCorreoUsuario);
+        etClaveUsuario = findViewById(R.id.etClaveUsuario);
+        etConfirmarClaveUsuario = findViewById(R.id.etConfirmarClaveUsuario);
         spRolUsuario = findViewById(R.id.spRolUsuario);
         Button btnGuardarUsuario = findViewById(R.id.btnGuardarUsuario);
         tvResultadoUsuario = findViewById(R.id.tvResultadoUsuario);
@@ -47,6 +52,14 @@ public class RegistroUsuarioActivity extends AppCompatActivity {
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, roles);
         spRolUsuario.setAdapter(adapter);
+
+        if (desdeLogin) {
+            ((TextView) findViewById(R.id.tvTituloUsuario)).setText("Crear cuenta de cliente");
+            findViewById(R.id.tvLabelRolUsuario).setVisibility(View.GONE);
+            spRolUsuario.setVisibility(View.GONE);
+            btnGuardarUsuario.setText("Crear cuenta");
+            ((Button) findViewById(R.id.btnVolverInicio)).setText("Volver al login");
+        }
 
         btnGuardarUsuario.setOnClickListener(v -> guardarUsuario());
         findViewById(R.id.btnVolverInicio).setOnClickListener(v -> NavegacionInicio.volver(this));
@@ -65,22 +78,36 @@ public class RegistroUsuarioActivity extends AppCompatActivity {
     private void guardarUsuario() {
         String nombre = etNombreUsuario.getText().toString().trim();
         String correo = etCorreoUsuario.getText().toString().trim();
+        String clave = etClaveUsuario.getText().toString();
+        String confirmarClave = etConfirmarClaveUsuario.getText().toString();
 
-        if (nombre.isEmpty() || correo.isEmpty()) {
+        if (nombre.isEmpty() || correo.isEmpty() || clave.isEmpty() || confirmarClave.isEmpty()) {
             Toast.makeText(this, "Complete todos los campos obligatorios", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        // El idRol va de 1 a 4 según la posición seleccionada (+1)
-        int idRol = spRolUsuario.getSelectedItemPosition() + 1;
+        if (clave.length() < 6) {
+            etClaveUsuario.setError("Usa al menos 6 caracteres");
+            return;
+        }
 
-        Usuario nuevo = new Usuario(0, nombre, correo, idRol);
+        if (!clave.equals(confirmarClave)) {
+            etConfirmarClaveUsuario.setError("Las contraseñas no coinciden");
+            return;
+        }
+
+        // El registro público siempre es de cliente, sin depender del selector de rol.
+        int idRol = desdeLogin ? 1 : spRolUsuario.getSelectedItemPosition() + 1;
+
+        Usuario nuevo = new Usuario(0, nombre, correo, clave, idRol);
         long idInsertado = usuarioController.registrarUsuario(nuevo);
 
         if (idInsertado != -1) {
             Toast.makeText(this, "Usuario registrado exitosamente", Toast.LENGTH_SHORT).show();
             etNombreUsuario.setText("");
             etCorreoUsuario.setText("");
+            etClaveUsuario.setText("");
+            etConfirmarClaveUsuario.setText("");
             if (desdeLogin) {
                 tvResultadoUsuario.setText("Cuenta creada. Vuelve a la pantalla de acceso e inicia sesión.");
             } else {

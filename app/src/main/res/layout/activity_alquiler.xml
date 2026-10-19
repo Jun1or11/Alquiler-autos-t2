@@ -2,6 +2,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/app_background"
     android:padding="16dp">
 
     <LinearLayout
@@ -10,6 +11,7 @@
         android:orientation="vertical">
 
         <TextView
+            style="@style/AppTitle"
             android:id="@+id/tvTituloAlquiler"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -20,50 +22,59 @@
             android:layout_marginBottom="16dp" />
 
         <TextView
+            style="@style/AppLabel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Cliente:" />
 
         <Spinner
+            style="@style/AppSpinner"
             android:id="@+id/spClienteAlquiler"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp" />
 
         <TextView
+            style="@style/AppLabel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Recepcionista de ventas:" />
 
         <Spinner
+            style="@style/AppSpinner"
             android:id="@+id/spRecepcionistaAlquiler"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp" />
 
         <TextView
+            style="@style/AppLabel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Vehículo:" />
 
         <Spinner
+            style="@style/AppSpinner"
             android:id="@+id/spVehiculoAlquiler"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp" />
 
         <TextView
+            style="@style/AppLabel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Reserva (opcional; seleccionarla completa cliente y vehículo):" />
 
         <Spinner
+            style="@style/AppSpinner"
             android:id="@+id/spReservaAlquiler"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp" />
 
         <EditText
+            style="@style/AppInput"
             android:id="@+id/etFechaInicioAlquiler"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -73,6 +84,7 @@
             android:layout_marginBottom="10dp" />
 
         <EditText
+            style="@style/AppInput"
             android:id="@+id/etFechaFinAlquiler"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -82,6 +94,7 @@
             android:layout_marginBottom="10dp" />
 
         <EditText
+            style="@style/AppInput"
             android:id="@+id/etMontoTotal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -97,6 +110,7 @@
             android:layout_marginBottom="12dp">
 
             <Button
+                style="@style/AppButton"
                 android:id="@+id/btnGenerarContrato"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
@@ -105,6 +119,7 @@
                 android:text="Generar Contrato y Comprobante" />
 
             <Button
+                style="@style/AppButton.Secondary"
                 android:id="@+id/btnVolverInicio"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
@@ -113,10 +128,11 @@
         </LinearLayout>
 
         <TextView
+            style="@style/AppResult"
             android:id="@+id/tvResultadoAlquiler"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#F0F0F0"
+            android:background="@drawable/bg_app_card"
             android:padding="12dp"
             android:textSize="15sp"
             android:minLines="4"

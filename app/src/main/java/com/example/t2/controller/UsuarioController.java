@@ -16,11 +16,12 @@ public class UsuarioController {
     }
 
     public long registrarUsuario(Usuario usuario) {
+        if (usuario.getClave() == null || usuario.getClave().isEmpty()) return -1;
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         ContentValues valores = new ContentValues();
         valores.put("nombre", usuario.getNombre());
         valores.put("correo", usuario.getCorreo());
-        valores.put("clave", usuario.getClave() != null && !usuario.getClave().isEmpty() ? usuario.getClave() : "123456");
+        valores.put("clave", usuario.getClave());
         valores.put("idRol", usuario.getIdRol());
         return db.insert("Usuario", null, valores);
     }

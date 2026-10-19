@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
+    android:background="@color/app_background"
     android:padding="20dp">
 
     <LinearLayout
@@ -22,6 +23,7 @@
 
         <TextView
             android:id="@+id/tvTituloLogin"
+            style="@style/AppTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="24dp"
@@ -32,6 +34,7 @@
 
         <EditText
             android:id="@+id/etCorreoLogin"
+            style="@style/AppInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Correo electrónico"
@@ -40,6 +43,7 @@
 
         <EditText
             android:id="@+id/etClaveLogin"
+            style="@style/AppInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Contraseña"
@@ -48,6 +52,7 @@
 
         <Button
             android:id="@+id/btnIniciarSesion"
+            style="@style/AppButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Iniciar Sesión"
@@ -55,6 +60,7 @@
 
         <Button
             android:id="@+id/btnIrRegistroUsuarioLogin"
+            style="@style/AppButton.Secondary"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Crear Nueva Cuenta (Registrarse)"
@@ -62,10 +68,9 @@
 
         <TextView
             android:id="@+id/tvCuentasDemo"
+            style="@style/AppResult"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#EFEFEF"
-            android:padding="12dp"
             android:text="Cuentas de Prueba Precargadas:\n• Admin / Personal: admin@renta.com | 123456\n• Cliente: cliente@gmail.com | 123456"
             android:textSize="13sp" />
 

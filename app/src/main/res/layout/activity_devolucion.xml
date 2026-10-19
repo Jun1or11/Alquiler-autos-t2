@@ -2,6 +2,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/app_background"
     android:padding="16dp">
 
     <LinearLayout
@@ -10,6 +11,7 @@
         android:orientation="vertical">
 
         <TextView
+            style="@style/AppTitle"
             android:id="@+id/tvTituloDevolucion"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -20,28 +22,33 @@
             android:layout_marginBottom="16dp" />
 
         <TextView
+            style="@style/AppLabel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Inspector de flota:" />
 
         <Spinner
+            style="@style/AppSpinner"
             android:id="@+id/spInspectorDevolucion"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp" />
 
         <TextView
+            style="@style/AppLabel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Contrato en alquiler:" />
 
         <Spinner
+            style="@style/AppSpinner"
             android:id="@+id/spContratoDevolucion"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp" />
 
         <TextView
+            style="@style/AppLabel"
             android:id="@+id/tvVehiculoDevolucion"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -49,6 +56,7 @@
             android:layout_marginBottom="10dp" />
 
         <EditText
+            style="@style/AppInput"
             android:id="@+id/etFechaDevolucion"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -58,6 +66,7 @@
             android:layout_marginBottom="10dp" />
 
         <EditText
+            style="@style/AppInput"
             android:id="@+id/etObservacionesInspeccion"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -67,6 +76,7 @@
             android:layout_marginBottom="10dp" />
 
         <TextView
+            style="@style/AppLabel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Penalidades (Opcional):"
@@ -74,6 +84,7 @@
             android:layout_marginBottom="4dp" />
 
         <EditText
+            style="@style/AppInput"
             android:id="@+id/etMotivoPenalidad"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -82,6 +93,7 @@
             android:layout_marginBottom="10dp" />
 
         <EditText
+            style="@style/AppInput"
             android:id="@+id/etMontoPenalidad"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -97,6 +109,7 @@
             android:layout_marginBottom="12dp">
 
             <Button
+                style="@style/AppButton"
                 android:id="@+id/btnFinalizarDevolucion"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
@@ -105,6 +118,7 @@
                 android:text="Registrar Inspección y Liberar Unidad" />
 
             <Button
+                style="@style/AppButton.Secondary"
                 android:id="@+id/btnVolverInicio"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
@@ -113,10 +127,11 @@
         </LinearLayout>
 
         <TextView
+            style="@style/AppResult"
             android:id="@+id/tvResultadoDevolucion"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#EFEFEF"
+            android:background="@drawable/bg_app_card"
             android:padding="12dp"
             android:textSize="15sp"
             android:minLines="4"

@@ -2,6 +2,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/app_background"
     android:padding="16dp">
 
     <LinearLayout
@@ -10,6 +11,7 @@
         android:orientation="vertical">
 
         <TextView
+            style="@style/AppTitle"
             android:id="@+id/tvTituloReportes"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -20,12 +22,14 @@
             android:layout_marginBottom="16dp" />
 
         <TextView
+            style="@style/AppLabel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="1. Rango de Fechas (Selección por Calendario):"
             android:textStyle="bold" />
 
         <EditText
+            style="@style/AppInput"
             android:id="@+id/etFechaInicio"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -34,6 +38,7 @@
             android:clickable="true" />
 
         <EditText
+            style="@style/AppInput"
             android:id="@+id/etFechaFin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -50,6 +55,7 @@
             android:layout_marginBottom="12dp">
 
             <Button
+                style="@style/AppButton"
                 android:id="@+id/btnConsultarRango"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
@@ -58,6 +64,7 @@
                 android:text="Consultar Recaudación y Unidades" />
 
             <Button
+                style="@style/AppButton.Secondary"
                 android:id="@+id/btnVolverInicio"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
@@ -66,6 +73,7 @@
         </LinearLayout>
 
         <Button
+            style="@style/AppButton"
             android:id="@+id/btnClienteTop"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -73,6 +81,7 @@
             android:layout_marginBottom="8dp" />
 
         <Button
+            style="@style/AppButton"
             android:id="@+id/btnTop10Recepcionistas"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -80,6 +89,7 @@
             android:layout_marginBottom="8dp" />
 
         <Button
+            style="@style/AppButton"
             android:id="@+id/btnVehiculosUsoMantenimiento"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -87,6 +97,7 @@
             android:layout_marginBottom="16dp" />
 
         <TextView
+            style="@style/AppLabel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Resultados:"
@@ -94,10 +105,11 @@
             android:textSize="16sp" />
 
         <TextView
+            style="@style/AppResult"
             android:id="@+id/tvResultadoReporte"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#EFEFEF"
+            android:background="@drawable/bg_app_card"
             android:padding="12dp"
             android:minLines="5"
             android:focusable="false"

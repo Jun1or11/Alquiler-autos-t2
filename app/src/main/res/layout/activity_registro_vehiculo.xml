@@ -2,6 +2,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/app_background"
     android:padding="16dp">
 
     <LinearLayout
@@ -10,6 +11,7 @@
         android:orientation="vertical">
 
         <TextView
+            style="@style/AppTitle"
             android:id="@+id/tvTituloRegistro"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -20,6 +22,7 @@
             android:layout_marginBottom="20dp" />
 
         <EditText
+            style="@style/AppInput"
             android:id="@+id/etPlaca"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -28,6 +31,7 @@
             android:layout_marginBottom="12dp" />
 
         <EditText
+            style="@style/AppInput"
             android:id="@+id/etMarca"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -36,6 +40,7 @@
             android:layout_marginBottom="12dp" />
 
         <EditText
+            style="@style/AppInput"
             android:id="@+id/etModelo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -44,6 +49,7 @@
             android:layout_marginBottom="12dp" />
 
         <TextView
+            style="@style/AppLabel"
             android:id="@+id/tvLabelCategoria"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -52,12 +58,14 @@
             android:layout_marginBottom="4dp" />
 
         <Spinner
+            style="@style/AppSpinner"
             android:id="@+id/spCategoriaVehiculo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="12dp" />
 
         <TextView
+            style="@style/AppLabel"
             android:id="@+id/tvLabelFlota"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -66,6 +74,7 @@
             android:layout_marginBottom="4dp" />
 
         <Spinner
+            style="@style/AppSpinner"
             android:id="@+id/spFlotaVehiculo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -79,6 +88,7 @@
             android:layout_marginBottom="12dp">
 
             <Button
+                style="@style/AppButton"
                 android:id="@+id/btnGuardarVehiculo"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
@@ -87,6 +97,7 @@
                 android:text="Guardar Vehículo" />
 
             <Button
+                style="@style/AppButton.Secondary"
                 android:id="@+id/btnVolverInicio"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
@@ -95,6 +106,7 @@
         </LinearLayout>
 
         <TextView
+            style="@style/AppLabel"
             android:id="@+id/tvCatalogoCliente"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -111,10 +123,11 @@
             android:visibility="gone" />
 
         <TextView
+            style="@style/AppResult"
             android:id="@+id/tvResultadoRegistro"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#EFEFEF"
+            android:background="@drawable/bg_app_card"
             android:padding="12dp"
             android:textSize="15sp"
             android:minLines="4"

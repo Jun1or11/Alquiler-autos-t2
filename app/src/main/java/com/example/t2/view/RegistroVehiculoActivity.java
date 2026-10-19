@@ -1,9 +1,11 @@
 package com.example.t2.view;
 
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -113,6 +115,7 @@ public class RegistroVehiculoActivity extends AppCompatActivity {
 
     private void mostrarCatalogoCliente() {
         contenedorCatalogoCliente.removeAllViews();
+        int espacio = (int) (getResources().getDisplayMetrics().density * 12 + 0.5f);
         boolean hayVehiculos = false;
         try (Cursor c = vehiculoController.listarTodosVehiculos()) {
             while (c.moveToNext()) {
@@ -125,16 +128,30 @@ public class RegistroVehiculoActivity extends AppCompatActivity {
                 String categoria = c.getString(c.getColumnIndexOrThrow("categoria"));
                 String sede = c.getString(c.getColumnIndexOrThrow("sede"));
 
+                LinearLayout tarjeta = new LinearLayout(this);
+                tarjeta.setOrientation(LinearLayout.VERTICAL);
+                tarjeta.setBackgroundResource(R.drawable.bg_app_card);
+                tarjeta.setPadding(espacio, espacio, espacio, espacio);
+                LinearLayout.LayoutParams paramsTarjeta = new LinearLayout.LayoutParams(
+                        ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                paramsTarjeta.bottomMargin = espacio;
+                contenedorCatalogoCliente.addView(tarjeta, paramsTarjeta);
+
                 TextView detalle = new TextView(this);
                 detalle.setText(placa + " • " + marca + " " + modelo + "\n" +
                         "Categoría: " + categoria + " | Sede: " + sede + "\nEstado: " + estado);
                 detalle.setTextSize(15);
-                detalle.setPadding(12, 12, 12, 4);
-                contenedorCatalogoCliente.addView(detalle);
+                detalle.setTextColor(getColor(R.color.app_text));
+                detalle.setPadding(0, 0, 0, espacio / 2);
+                tarjeta.addView(detalle);
 
                 if ("Disponible".equals(estado)) {
                     Button reservar = new Button(this);
                     reservar.setText("Reservar " + placa);
+                    reservar.setAllCaps(false);
+                    reservar.setBackgroundResource(R.drawable.bg_app_primary);
+                    reservar.setBackgroundTintList(ColorStateList.valueOf(getColor(R.color.app_primary)));
+                    reservar.setTextColor(getColor(R.color.app_on_primary));
                     reservar.setOnClickListener(v -> {
                         if (idUsuarioSesion <= 0) {
                             Toast.makeText(this, "Inicia sesión para reservar", Toast.LENGTH_SHORT).show();
@@ -147,13 +164,16 @@ public class RegistroVehiculoActivity extends AppCompatActivity {
                         intent.putExtra("ID_VEHICULO", id);
                         startActivity(intent);
                     });
-                    contenedorCatalogoCliente.addView(reservar);
+                    tarjeta.addView(reservar);
                 }
             }
         }
         if (!hayVehiculos) {
             TextView vacio = new TextView(this);
             vacio.setText("Todavía no hay vehículos en el catálogo.");
+            vacio.setTextColor(getColor(R.color.app_text));
+            vacio.setBackgroundResource(R.drawable.bg_app_card);
+            vacio.setPadding(espacio, espacio, espacio, espacio);
             contenedorCatalogoCliente.addView(vacio);
         }
     }
