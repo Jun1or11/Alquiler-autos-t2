@@ -77,13 +77,14 @@ public class MainActivity extends AppCompatActivity {
             btnIrReportes.setVisibility(View.GONE);
             btnIrRegistroVehiculo.setText("Explorar Vehículos y Reservar");
             btnIrReserva.setText("Ver Mis Reservas");
-            btnIrPoliza.setText("Consultar Seguros");
+            btnIrPoliza.setVisibility(View.GONE);
         } else { // ROL ADMINISTRACIÓN / PERSONAL
             btnIrRegistroUsuario.setVisibility(View.VISIBLE);
             btnIrAlquiler.setVisibility(View.VISIBLE);
             btnIrMantenimiento.setVisibility(View.VISIBLE);
             btnIrDevolucion.setVisibility(View.VISIBLE);
             btnIrReportes.setVisibility(View.VISIBLE);
+            btnIrPoliza.setVisibility(View.VISIBLE);
             btnIrRegistroVehiculo.setText("Vehículos: Registrar y Ver Flota");
             btnIrRegistroUsuario.setText("Usuarios y Roles");
             btnIrReserva.setText("Reservas");

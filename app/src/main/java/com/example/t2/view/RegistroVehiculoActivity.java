@@ -17,8 +17,11 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.t2.R;
+import com.example.t2.controller.PolizaSeguroController;
 import com.example.t2.controller.VehiculoController;
 import com.example.t2.model.Vehiculo;
+
+import java.util.Locale;
 
 public class RegistroVehiculoActivity extends AppCompatActivity {
     private TextView tvTituloRegistro;
@@ -35,6 +38,7 @@ public class RegistroVehiculoActivity extends AppCompatActivity {
     private LinearLayout contenedorCatalogoCliente;
 
     private VehiculoController vehiculoController;
+    private PolizaSeguroController polizaSeguroController;
     private int idRolSesion;
     private int idUsuarioSesion;
 
@@ -75,6 +79,7 @@ public class RegistroVehiculoActivity extends AppCompatActivity {
         tvLabelFlota = findViewById(R.id.tvLabelFlota);
 
         vehiculoController = new VehiculoController(this);
+        polizaSeguroController = new PolizaSeguroController(this);
         findViewById(R.id.btnVolverInicio).setOnClickListener(v -> NavegacionInicio.volver(this));
 
         ArrayAdapter<String> adapterCat = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, categorias);
@@ -145,6 +150,39 @@ public class RegistroVehiculoActivity extends AppCompatActivity {
                 detalle.setPadding(0, 0, 0, espacio / 2);
                 tarjeta.addView(detalle);
 
+                Button verSeguro = new Button(this);
+                verSeguro.setText("Ver seguro");
+                verSeguro.setAllCaps(false);
+                verSeguro.setBackgroundResource(R.drawable.bg_app_secondary);
+                verSeguro.setBackgroundTintList(ColorStateList.valueOf(getColor(R.color.app_soft)));
+                verSeguro.setTextColor(getColor(R.color.app_secondary_text));
+                LinearLayout.LayoutParams paramsSeguro = new LinearLayout.LayoutParams(
+                        ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                paramsSeguro.bottomMargin = espacio / 2;
+                tarjeta.addView(verSeguro, paramsSeguro);
+
+                TextView detalleSeguro = new TextView(this);
+                detalleSeguro.setTextSize(15);
+                detalleSeguro.setTextColor(getColor(R.color.app_text));
+                detalleSeguro.setBackgroundResource(R.drawable.bg_app_secondary);
+                detalleSeguro.setPadding(espacio, espacio, espacio, espacio);
+                detalleSeguro.setVisibility(View.GONE);
+                LinearLayout.LayoutParams paramsDetalleSeguro = new LinearLayout.LayoutParams(
+                        ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                paramsDetalleSeguro.bottomMargin = espacio / 2;
+                tarjeta.addView(detalleSeguro, paramsDetalleSeguro);
+
+                verSeguro.setOnClickListener(v -> {
+                    if (detalleSeguro.getVisibility() == View.VISIBLE) {
+                        detalleSeguro.setVisibility(View.GONE);
+                        verSeguro.setText("Ver seguro");
+                    } else {
+                        detalleSeguro.setText(describirSeguro(id));
+                        detalleSeguro.setVisibility(View.VISIBLE);
+                        verSeguro.setText("Ocultar seguro");
+                    }
+                });
+
                 if ("Disponible".equals(estado)) {
                     Button reservar = new Button(this);
                     reservar.setText("Reservar " + placa);
@@ -176,6 +214,21 @@ public class RegistroVehiculoActivity extends AppCompatActivity {
             vacio.setPadding(espacio, espacio, espacio, espacio);
             contenedorCatalogoCliente.addView(vacio);
         }
+    }
+
+    private String describirSeguro(int idVehiculo) {
+        StringBuilder texto = new StringBuilder();
+        try (Cursor polizas = polizaSeguroController.listarPolizasPorVehiculo(idVehiculo)) {
+            while (polizas.moveToNext()) {
+                if (texto.length() > 0) texto.append("\n\n");
+                texto.append("Póliza N° ").append(polizas.getString(polizas.getColumnIndexOrThrow("numeroPoliza")))
+                        .append("\nCobertura: ").append(polizas.getString(polizas.getColumnIndexOrThrow("cobertura")))
+                        .append("\nMonto máximo cubierto: S/ ")
+                        .append(String.format(Locale.US, "%.2f", polizas.getDouble(polizas.getColumnIndexOrThrow("montoCobertura"))))
+                        .append("\nVencimiento: ").append(polizas.getString(polizas.getColumnIndexOrThrow("fechaVencimiento")));
+            }
+        }
+        return texto.length() == 0 ? "Sin póliza registrada para este vehículo." : texto.toString();
     }
 
     private void guardarDatos() {
